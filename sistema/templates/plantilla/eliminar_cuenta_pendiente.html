@@ -1,0 +1,15 @@
+{% extends 'plantilla/vista_principal.html' %}
+{% block titulo %}
+Confirmar la cuenta pagada
+{% endblock titulo %}
+
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    <p><strong>Confirmar si la cuenta fue pagada!</strong></p>
+    <h3>{{ object.cliente }} {{ object.precio }}</h3>
+    <button class="btn btn-danger" type="submit">Confirmar</button>
+    <a class="btn btn-primary" href="{% url 'registro_cuentas' %}">Cancelar</a>
+</form>
+
+{% endblock body %}

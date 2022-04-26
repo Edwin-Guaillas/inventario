@@ -1,0 +1,82 @@
+{% extends 'plantilla/vista_principal.html' %}
+{% block titulo %}
+Gestion de cuentas pendientes
+{% endblock titulo %}
+
+{% block body %}
+<div>
+    <button class="btn btn-primary" type="button" onclick="abrir_modal_creacion('{% url 'registrar_cuentas'%}')">
+        Registrar nueva cuenta por cobrar
+    </button>
+</div>
+
+{% if cuentas %}
+<div class="card">
+    <div class="card-header">
+        <strong class="card-title">Registro de cuentas pendientes</strong>
+    </div>
+    <div class="table-stats order-table ov-h">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Cedula</th>
+                    <th>Producto</th>
+                    <th>Precio total</th>
+                    <th>fecha de compra</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in cuentas %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.cliente}}</td>
+                    <td>{{ p.cedula }}</td>
+                    <td>{{ p.producto }}</td>
+                    <td>{{ p.precio }}</td>
+                    <td>{{ p.fecha_comprado}}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="abrir_modal_edicion('{% url 'editar_cuentas' p.id %}')"
+                            class="btn btn-primary">
+                            Editar
+                        </button>
+                        <a href="{% url 'eliminar_cuentas' p.id %}" class="btn btn-success">
+                            Cobrar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% else %}
+<h1>No existen cuentas pendientes</h1>
+
+{% endif %}
+
+<div class="modal face" id="creacion" role="dialog">
+</div>
+<div class="modal face" id="edicion" role="dialog">
+</div>
+
+{% endblock body %}
+
+{% block extrajs %}
+<script type="text/javascript">
+    var $ = jQuery.noConflic();
+    function abrir_modal_creacion(url) {
+        $('#creacion').load(url, function () {
+            $(this).modal('show')
+        });
+    }
+    function abrir_modal_edicion(url) {
+        $('#edicion').load(url, function () {
+            $(this).modal('show')
+        });
+    }
+</script>
+{% endblock extrajs %}
